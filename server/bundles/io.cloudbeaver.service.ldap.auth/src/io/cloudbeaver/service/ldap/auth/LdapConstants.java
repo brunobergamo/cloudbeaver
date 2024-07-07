@@ -20,6 +20,7 @@ public interface LdapConstants {
     String PARAM_HOST = "ldap-host";
     String PARAM_PORT = "ldap-port";
     String PARAM_DN = "ldap-dn";
+    String PARAM_DOMAIN = "ldap-domain";
 
 
     String CRED_USERNAME = "user";

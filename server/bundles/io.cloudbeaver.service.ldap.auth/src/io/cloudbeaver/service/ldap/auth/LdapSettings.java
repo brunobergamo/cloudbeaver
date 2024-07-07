@@ -28,15 +28,18 @@ public class LdapSettings {
     @NotNull
     private final String baseDN;
     private final int port;
+    private final String domain;
 
     protected LdapSettings(SMAuthProviderCustomConfiguration providerConfiguration) {
         this.providerConfiguration = providerConfiguration;
         this.host = providerConfiguration.getParameter(LdapConstants.PARAM_HOST);
-        this.port = CommonUtils.isNotEmpty(providerConfiguration.getParameter(LdapConstants.PARAM_PORT)) ? Integer.parseInt(
-            providerConfiguration.getParameter(LdapConstants.PARAM_PORT)) : 389;
+        this.port = CommonUtils.isNotEmpty(providerConfiguration.getParameter(LdapConstants.PARAM_PORT))
+                ? Integer.parseInt(
+                        providerConfiguration.getParameter(LdapConstants.PARAM_PORT))
+                : 389;
         this.baseDN = providerConfiguration.getParameterOrDefault(LdapConstants.PARAM_DN, "");
+        this.domain = providerConfiguration.getParameterOrDefault(LdapConstants.PARAM_DOMAIN, "");
     }
-
 
     @NotNull
     public String getBaseDN() {
@@ -50,5 +53,9 @@ public class LdapSettings {
 
     public int getPort() {
         return port;
+    }
+
+    public String getDomain() {
+        return domain;
     }
 }

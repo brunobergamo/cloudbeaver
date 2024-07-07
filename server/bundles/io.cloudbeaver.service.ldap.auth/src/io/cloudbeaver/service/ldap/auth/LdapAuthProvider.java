@@ -74,12 +74,16 @@ public class LdapAuthProvider implements SMAuthProviderExternal<SMSession>, SMBr
         environment.put(Context.PROVIDER_URL, ldapProviderUrl);
         environment.put(Context.SECURITY_AUTHENTICATION, "simple");
 
-        String cn = "cn=" + userName;
-        var principal = Stream.of(cn, unit, ldapSettings.getBaseDN())
-            .filter(CommonUtils::isNotEmpty)
-            .collect(Collectors.joining(","));
-
-        environment.put(Context.SECURITY_PRINCIPAL, principal);
+        var ldapDomain = ldapSettings.getDomain();
+        // String cn = "cn=" + userName;
+        // var principal = Stream.of(cn, unit, ldapSettings.getBaseDN())
+        //     .filter(CommonUtils::isNotEmpty)
+        //     .collect(Collectors.joining(","));
+        if (ldapDomain!=null && !"".equals(ldapDomain)){
+            userName = userName + "@" + ldapDomain;
+        }
+        System.out.println("userName: " + userName );
+        environment.put(Context.SECURITY_PRINCIPAL, userName);        
         environment.put(Context.SECURITY_CREDENTIALS, password);
         try {
             DirContext context = new InitialDirContext(environment);
